@@ -16,16 +16,55 @@ import { StatsSection } from "@/components/stats-section"
 const projects = [
   {
     id: 1,
-    title: "G Counsel Law - AI-Enhanced Legal Platform",
+    title: "GifterX Talks - TED Talks for Entrepreneurs",
     summary:
-      "Next-generation legal services website featuring an AI-powered chatbot for instant client support, consultation scheduling, and legal FAQ assistance",
-    tags: ["Client Work", "AI", "Web App"],
-    metric: "AI chatbot for 24/7 client support, Instant legal guidance",
-    image: "/gcounsel-law-ai.jpg",
-    demoUrl: "https://gcouncellaw-nfsyvu02d-nadvolods-projects.vercel.app/",
+      "Premium event website for Christopher Kai's world-class entrepreneurship speaker series featuring past speakers like Elon Musk, TED founder Richard Saul Wurman, and Reebok co-founder Joe Foster",
+    tags: ["Web App", "E-Commerce"],
+    metric: "Speakers from 92 countries, 1,500+ world-class speakers",
+    image: "/placeholder.jpg",
+    demoUrl: "https://www.gifterxtalks.com/",
   },
   {
     id: 2,
+    title: "Note My Life - Never Forget Your Life Lessons",
+    summary:
+      "Personal growth app that captures important insights, mistakes, and lessons learned, then reminds you at the right time so you never repeat the same mistakes twice",
+    tags: ["Web App", "Personal Development", "AI"],
+    metric: "Organize by life areas, Timely reminders, Build wisdom",
+    image: "/placeholder.jpg",
+    demoUrl: "https://notemylife.com",
+  },
+  {
+    id: 3,
+    title: "CEO Mission Control - AI Chief of Staff",
+    summary:
+      "Executive command center that consolidates priorities, focus hours, finances, and decisions into one AI-powered dashboard that understands what moves the needle",
+    tags: ["Productivity", "AI", "SaaS"],
+    metric: "AI priority scoring, Focus hours tracking, Real-time financial dashboard",
+    image: "/placeholder.jpg",
+    demoUrl: "https://ceo-mission-control-nine.vercel.app/",
+  },
+  {
+    id: 4,
+    title: "Aktiv Clean - Professional Cleaning Services",
+    summary:
+      "Modern business website for professional home and commercial cleaning services with booking, before/after showcases, and customer reviews",
+    tags: ["Client Work", "Web App", "Services"],
+    metric: "5-star rated, 6+ reviews, Full booking system",
+    image: "/aktivclean.jpg",
+    demoUrl: "https://v0-aktivcleanv2.vercel.app/",
+  },
+  {
+    id: 5,
+    title: "LimitlessOS - Operating System for Elite Performers",
+    summary: "Vision tracking, deep work metrics, and accountability for founders, executives, and operators",
+    tags: ["Productivity", "AI", "SaaS"],
+    metric: "Vision-to-execution system for high performers",
+    image: "/limitlessos.jpg",
+    demoUrl: "https://limitlessos.vercel.app/",
+  },
+  {
+    id: 6,
     title: "Nice Properties - Real Estate Listings Website",
     summary:
       "Professional real estate company website showcasing property listings with proven track record since 2017",
@@ -35,25 +74,7 @@ const projects = [
     demoUrl: "https://v0-niceproperties.vercel.app/",
   },
   {
-    id: 3,
-    title: "ExaVeyra - Personalized Peptide & Stem Cell Wellness",
-    summary: "Premium biotech platform for personalized peptide therapy and stem cell treatments",
-    tags: ["Healthcare", "Biotech", "E-Commerce"],
-    metric: "Launching Q1 2025, Personalized wellness solutions",
-    image: "/exaveyra-peptides.jpg",
-    demoUrl: "https://evcomingsoon.vercel.app/",
-  },
-  {
-    id: 4,
-    title: "LimitlessOS - Operating System for Elite Performers",
-    summary: "Vision tracking, deep work metrics, and accountability for founders, executives, and operators",
-    tags: ["Productivity", "AI", "SaaS"],
-    metric: "Vision-to-execution system for high performers",
-    image: "/limitlessos.jpg",
-    demoUrl: "https://limitlessos.vercel.app/",
-  },
-  {
-    id: 5,
+    id: 7,
     title: "VictoryHub - Personal Goal Tracking & Reflection",
     summary:
       "Comprehensive personal development platform for goal setting, tracking, and daily reflection with journaling features",
@@ -63,7 +84,7 @@ const projects = [
     demoUrl: "https://victoryhub.vercel.app/",
   },
   {
-    id: 6,
+    id: 8,
     title: "Credit Card Fraud Detection Agent",
     summary: "AI-powered fraud detection system using OpenAI for real-time order validation and risk assessment",
     tags: ["AI", "AI Automation", "FinTech", "Enterprise"],
@@ -72,7 +93,7 @@ const projects = [
     githubUrl: "https://github.com/nadvolod/order-processing-agents",
   },
   {
-    id: 7,
+    id: 9,
     title: "Ultimate Test Metrics - AI-Powered GitHub Testing Intelligence",
     summary:
       "AI-driven test analysis platform that automatically reviews test quality, coverage, and risk for faster PR approvals",
@@ -82,7 +103,17 @@ const projects = [
     demoUrl: "https://v0-ultimatetestmetrics.vercel.app/",
   },
   {
-    id: 8,
+    id: 10,
+    title: "G Counsel Law - AI-Enhanced Legal Platform",
+    summary:
+      "Next-generation legal services website featuring an AI-powered chatbot for instant client support, consultation scheduling, and legal FAQ assistance",
+    tags: ["Client Work", "AI", "Web App"],
+    metric: "AI chatbot for 24/7 client support, Instant legal guidance",
+    image: "/gcounsel-law-ai.jpg",
+    demoUrl: "https://gcouncellaw-nfsyvu02d-nadvolods-projects.vercel.app/",
+  },
+  {
+    id: 11,
     title: "G Counsel Law - Business Attorney Services",
     summary:
       "WordPress website and lead generation system for business law practice serving Maryland, DC, and West Virginia",
@@ -92,7 +123,7 @@ const projects = [
     demoUrl: "https://gcounsellaw.com/about-us/",
   },
   {
-    id: 9,
+    id: 12,
     title: "Healthcare Automation Program Development",
     summary:
       "Enterprise-grade test automation for a major healthcare organization with comprehensive CI/CD integration",
@@ -102,7 +133,7 @@ const projects = [
     caseStudyUrl: "https://ultimateqa.com/automation-development-for-healthcare-organization/",
   },
   {
-    id: 10,
+    id: 13,
     title: "Abundance Board - Vision Manifestation Platform",
     summary:
       "Digital vision board platform helping users manifest their goals through visual affirmations and daily practice",
@@ -112,7 +143,7 @@ const projects = [
     demoUrl: "https://myvision0.vercel.app/",
   },
   {
-    id: 11,
+    id: 14,
     title: "VitaFlow - Luxury Wellness & IV Therapy Center",
     summary: "Premium wellness center in Miami Beach offering IV therapy, peptides, and holistic rejuvenation",
     tags: ["Healthcare", "E-Commerce", "Client Work"],
@@ -121,7 +152,7 @@ const projects = [
     demoUrl: "https://v2vf.vercel.app/",
   },
   {
-    id: 12,
+    id: 15,
     title: "UltimateQA - Software Development Services",
     summary: "Comprehensive software development and quality assurance platform with extensive learning resources",
     tags: ["Platform", "Education", "Testing"],
@@ -130,7 +161,7 @@ const projects = [
     demoUrl: "https://ultimateqa.vercel.app/",
   },
   {
-    id: 13,
+    id: 16,
     title: "Nikolay Advolodkin - Personal Brand Site",
     summary:
       "Professional portfolio and thought leadership platform showcasing expertise in test automation and software quality",
@@ -140,7 +171,7 @@ const projects = [
     demoUrl: "https://nikolaydev.vercel.app/",
   },
   {
-    id: 14,
+    id: 17,
     title: "UltimateQA Main Platform",
     summary:
       "Leading test automation training and consulting platform serving developers and QA professionals worldwide",
@@ -148,16 +179,6 @@ const projects = [
     metric: "$1M+ revenue, 250K+ students, Industry-leading courses",
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
-  },
-  {
-    id: 15,
-    title: "Aktiv Clean - Professional Cleaning Services",
-    summary:
-      "Modern business website for professional home and commercial cleaning services with booking, before/after showcases, and customer reviews",
-    tags: ["Client Work", "Web App", "Services"],
-    metric: "5-star rated, 6+ reviews, Full booking system",
-    image: "/aktivclean.jpg",
-    demoUrl: "https://v0-aktivcleanv2.vercel.app/",
   },
 ]
 
