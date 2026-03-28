@@ -21,7 +21,7 @@ const projects = [
       "Premium event website for Christopher Kai's world-class entrepreneurship speaker series featuring past speakers like Elon Musk, TED founder Richard Saul Wurman, and Reebok co-founder Joe Foster",
     tags: ["Web App", "E-Commerce"],
     metric: "Speakers from 92 countries, 1,500+ world-class speakers",
-    image: "/placeholder.jpg",
+    image: "/gifterxtalks.jpg",
     demoUrl: "https://www.gifterxtalks.com/",
   },
   {
@@ -31,7 +31,7 @@ const projects = [
       "Personal growth app that captures important insights, mistakes, and lessons learned, then reminds you at the right time so you never repeat the same mistakes twice",
     tags: ["Web App", "Personal Development", "AI"],
     metric: "Organize by life areas, Timely reminders, Build wisdom",
-    image: "/placeholder.jpg",
+    image: "/notemylife.jpg",
     demoUrl: "https://notemylife.com",
   },
   {
@@ -41,7 +41,7 @@ const projects = [
       "Executive command center that consolidates priorities, focus hours, finances, and decisions into one AI-powered dashboard that understands what moves the needle",
     tags: ["Productivity", "AI", "SaaS"],
     metric: "AI priority scoring, Focus hours tracking, Real-time financial dashboard",
-    image: "/placeholder.jpg",
+    image: "/ceo-mission-control.jpg",
     demoUrl: "https://ceo-mission-control-nine.vercel.app/",
   },
   {
