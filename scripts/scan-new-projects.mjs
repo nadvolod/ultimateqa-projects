@@ -335,17 +335,27 @@ async function aiChatJson(systemPrompt, userPrompt) {
     body: JSON.stringify({
       model: TEXT_MODEL,
       messages: [
-        { role: 'system', content: systemPrompt },
+        { role: 'system', content: `${systemPrompt}\n\nReturn ONLY a single JSON object. No prose, no markdown code fences.` },
         { role: 'user', content: userPrompt },
       ],
-      response_format: { type: 'json_object' },
     }),
   });
   if (!res.ok) throw new Error(`AI Gateway chat ${res.status}: ${(await res.text()).slice(0, 400)}`);
   const data = await res.json();
   const text = data.choices?.[0]?.message?.content || '{}';
-  try { return JSON.parse(text); }
-  catch { throw new Error(`AI Gateway did not return valid JSON: ${text.slice(0, 400)}`); }
+  return parseLooseJson(text);
+}
+
+function parseLooseJson(raw) {
+  let s = String(raw).trim();
+  const fence = s.match(/```(?:json)?\s*([\s\S]*?)```/i);
+  if (fence) s = fence[1].trim();
+  const first = s.indexOf('{');
+  const last = s.lastIndexOf('}');
+  if (first === -1 || last === -1) throw new Error(`AI response had no JSON object: ${raw.slice(0, 300)}`);
+  const candidate = s.slice(first, last + 1);
+  try { return JSON.parse(candidate); }
+  catch (err) { throw new Error(`AI response was not parseable JSON (${err.message}): ${candidate.slice(0, 300)}`); }
 }
 
 const ALLOWED_TAGS = [
