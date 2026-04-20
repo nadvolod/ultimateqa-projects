@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "UltimateQA - Quality Assurance Learning Platform",
+    summary: "A modern web platform delivering professional QA and test automation education for developers and testers looking to level up their skills.",
+    tags: ["Web App", "Education", "Testing", "Personal Brand"],
+    metric: "Test automation courses, Hands-on coding labs, Expert-led curriculum, Career-focused content",
+    image: "/ultimateqawebsite.jpg",
+    demoUrl: "https://ultimateqawebsite.vercel.app",
+  },
 ]
 
 const allTags = [
