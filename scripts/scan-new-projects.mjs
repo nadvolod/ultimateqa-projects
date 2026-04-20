@@ -325,9 +325,11 @@ async function findVercelProdUrl(repo) {
 }
 
 function prodUrlFor(project) {
-  const prodAlias = project.targets?.production?.alias || [];
-  const domain = prodAlias.find((a) => !a.includes('-git-') && !a.endsWith('.vercel.app') === false) || prodAlias[0];
-  if (domain) return `https://${domain}`;
+  const aliases = (project.targets?.production?.alias || []).filter((a) => !a.includes('-git-'));
+  if (aliases.length) {
+    const custom = aliases.find((a) => !a.endsWith('.vercel.app'));
+    return `https://${custom || aliases[0]}`;
+  }
   const deploymentUrl = project.targets?.production?.url;
   return deploymentUrl ? `https://${deploymentUrl}` : null;
 }
