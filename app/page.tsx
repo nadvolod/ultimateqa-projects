@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "UltimateQA Projects - Test Automation Practice Platform",
+    summary: "A hands-on practice platform for software testers and automation engineers to sharpen their skills against real-world UI scenarios. Built for QA professionals who want meaningful, repeatable testing challenges.",
+    tags: ["Education", "Testing", "Platform", "Web App"],
+    metric: "Real-world UI scenarios, Automation-friendly elements, Repeatable test targets, Skill-building exercises",
+    image: "/ultimateqa-projects.jpg",
+    demoUrl: "https://projects.ultimateqa.com",
+  },
 ]
 
 const allTags = [
