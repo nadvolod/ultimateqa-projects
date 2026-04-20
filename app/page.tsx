@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "Note My Life - Capture Your Hard-Earned Wisdom",
+    summary: "A personal knowledge journaling app that helps you record life lessons and insights so you never repeat the same mistakes. Built for reflective individuals who want to turn experience into lasting wisdom.",
+    tags: ["Web App", "Personal Development", "Productivity", "Personal Brand"],
+    metric: "capture life lessons instantly, never relearn the same lesson, searchable wisdom journal, quick note entry, insight preservation",
+    image: "/lifenotes.jpg",
+    demoUrl: "https://notemylife-v2.vercel.app",
+  },
 ]
 
 const allTags = [
