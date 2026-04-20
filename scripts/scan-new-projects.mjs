@@ -22,7 +22,10 @@ const USER = 'nadvolod';
 
 // Repos to skip even if they have a public Vercel URL. Add the scanner's own
 // repo (self-reference) and anything else that shouldn't become a portfolio card.
-const EXCLUDED_REPOS = new Set(['ultimateqa-projects']);
+const EXCLUDED_REPOS = new Set([
+  'ultimateqa-projects',  // self-reference
+  'ultimateqawebsite',    // deprecated / superseded
+]);
 
 const AI_GATEWAY_URL = 'https://ai-gateway.vercel.sh/v1';
 const TEXT_MODEL = process.env.TEXT_MODEL || 'anthropic/claude-sonnet-4-6';
