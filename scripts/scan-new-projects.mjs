@@ -25,6 +25,7 @@ const USER = 'nadvolod';
 const EXCLUDED_REPOS = new Set([
   'ultimateqa-projects',  // self-reference
   'ultimateqawebsite',    // deprecated / superseded
+  'magic-social',         // user opted to skip for now
 ]);
 
 const AI_GATEWAY_URL = 'https://ai-gateway.vercel.sh/v1';
@@ -60,44 +61,51 @@ async function run() {
   const existingUrls = extractExistingUrls(pageContent);
   log(`  ${existingUrls.size} URLs already listed`);
 
-  log(`Listing public repos for @${USER}`);
-  const repos = await listUserRepos(USER);
-  log(`  ${repos.length} public repos`);
+  log(`Listing Vercel projects under @${USER} (source of truth — covers both public and private GitHub repos)`);
+  const candidates = await listNadvolodVercelProjects();
+  log(`  ${candidates.length} Vercel projects linked to ${USER} repos`);
 
-  log('Probing each repo for a public Vercel production URL');
   let chosen = null;
-  for (const repo of repos) {
-    if (EXCLUDED_REPOS.has(repo.name)) {
-      log(`  - ${repo.name} (excluded)`);
+  for (const c of candidates) {
+    if (EXCLUDED_REPOS.has(c.repo)) {
+      log(`  - ${c.repo} (excluded)`);
       continue;
     }
-    const url = await findVercelProdUrl(repo);
-    if (!url) continue;
-    if (existingUrls.has(normalizeUrl(url))) {
-      log(`  ✗ ${repo.name} → ${url} (already on homepage)`);
+    if (!c.url) {
+      log(`  ✗ ${c.repo} (no production URL)`);
       continue;
     }
-    const reachable = await isPubliclyReachable(url);
+    if (existingUrls.has(normalizeUrl(c.url))) {
+      log(`  ✗ ${c.repo} → ${c.url} (already on homepage)`);
+      continue;
+    }
+    const reachable = await isPubliclyReachable(c.url);
     if (!reachable) {
-      log(`  ✗ ${repo.name} → ${url} (not reachable)`);
+      log(`  ✗ ${c.repo} → ${c.url} (not reachable)`);
       continue;
     }
-    log(`  ✓ ${repo.name} → ${url}`);
-    chosen = { repo, url };
+    log(`  ✓ ${c.repo} → ${c.url}`);
+    chosen = c;
     break;
   }
 
   if (!chosen) {
     log('No new qualifying project found. Nothing to do.');
     writeOutput('new_project', 'false');
-    writeSummary(`## 🟡 Daily project scan — no new project found\n\nScanned ${repos.length} repos. None had a new public Vercel URL.\n`);
+    writeSummary(`## 🟡 Daily project scan — no new project found\n\nChecked ${candidates.length} Vercel projects under @${USER}.\n`);
     return;
   }
 
-  const { repo, url } = chosen;
-  const slug = slugify(repo.name);
-  log(`Fetching README for ${repo.full_name}`);
-  const readme = await fetchReadme(repo.full_name);
+  const fullName = `${USER}/${chosen.repo}`;
+  const repo = { name: chosen.repo, full_name: fullName };
+  const url = chosen.url;
+  const slug = slugify(chosen.repo);
+  log(`Gathering metadata for ${fullName}`);
+  let readme = await fetchReadme(fullName);
+  if (!readme) {
+    log(`  no README access — falling back to live-site meta`);
+    readme = await fetchSiteMeta(url);
+  }
 
   log('Generating project metadata via AI Gateway');
   const meta = await generateMetadata({ repo, url, readme });
@@ -184,7 +192,8 @@ function extractExistingUrls(content) {
 function normalizeUrl(u) {
   try {
     const p = new URL(u);
-    return (p.origin + p.pathname).replace(/\/$/, '').toLowerCase();
+    const host = p.hostname.replace(/^www\./i, '');
+    return `${p.protocol}//${host}${p.pathname}`.replace(/\/$/, '').toLowerCase();
   } catch {
     return u.toLowerCase();
   }
@@ -312,14 +321,65 @@ async function loadVercelProjectsByRepo() {
 async function findVercelProdUrl(repo) {
   const projects = await loadVercelProjectsByRepo();
   const project = projects.get(repo.full_name.toLowerCase());
-  if (!project) return null;
+  return project ? prodUrlFor(project) : null;
+}
 
+function prodUrlFor(project) {
   const prodAlias = project.targets?.production?.alias || [];
-  const domain = prodAlias.find((a) => !a.includes('-git-')) || prodAlias[0];
+  const domain = prodAlias.find((a) => !a.includes('-git-') && !a.endsWith('.vercel.app') === false) || prodAlias[0];
   if (domain) return `https://${domain}`;
-
   const deploymentUrl = project.targets?.production?.url;
   return deploymentUrl ? `https://${deploymentUrl}` : null;
+}
+
+async function listNadvolodVercelProjects() {
+  const teamId = await resolveVercelTeamId();
+  const projects = [];
+  let from = null, pages = 0;
+  while (pages++ < 20) {
+    const qs = new URLSearchParams({ limit: '100' });
+    if (teamId) qs.set('teamId', teamId);
+    if (from) qs.set('from', String(from));
+    const data = await vercelFetch(`/v9/projects?${qs}`);
+    for (const p of data.projects || []) {
+      if (p.link?.type !== 'github' || p.link.org?.toLowerCase() !== USER.toLowerCase()) continue;
+      projects.push({
+        repo: p.link.repo,
+        url: prodUrlFor(p),
+        updatedAt: p.updatedAt || 0,
+      });
+    }
+    if (!data.pagination?.next) break;
+    from = data.pagination.next;
+  }
+  projects.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+  const seen = new Set();
+  return projects.filter((c) => {
+    const k = `${c.repo}|${c.url || ''}`;
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+}
+
+async function fetchSiteMeta(url) {
+  try {
+    const res = await fetch(url, { redirect: 'follow' });
+    if (!res.ok) return '';
+    const html = await res.text();
+    const pick = (re) => { const m = html.match(re); return m ? m[1].trim() : ''; };
+    const title = pick(/<title[^>]*>([^<]+)<\/title>/i);
+    const desc = pick(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)
+      || pick(/<meta[^>]+property=["']og:description["'][^>]+content=["']([^"']+)["']/i);
+    const ogTitle = pick(/<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i);
+    const ogType = pick(/<meta[^>]+property=["']og:type["'][^>]+content=["']([^"']+)["']/i);
+    return [
+      title && `Page title: ${title}`,
+      ogTitle && `OG title: ${ogTitle}`,
+      desc && `Description: ${desc}`,
+      ogType && `Type: ${ogType}`,
+    ].filter(Boolean).join('\n').slice(0, 4000);
+  } catch { return ''; }
 }
 
 async function isPubliclyReachable(url) {
