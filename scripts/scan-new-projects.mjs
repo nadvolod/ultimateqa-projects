@@ -251,26 +251,59 @@ async function fetchReadme(fullName) {
 
 // --------- Vercel ---------
 
-async function findVercelProdUrl(repo) {
-  const params = new URLSearchParams({
-    gitRepositoryFullName: repo.full_name,
-    gitRepositoryType: 'github',
-    limit: '5',
-  });
-  if (VERCEL_TEAM_ID) params.set('teamId', VERCEL_TEAM_ID);
-  else if (VERCEL_TEAM_SLUG) params.set('slug', VERCEL_TEAM_SLUG);
-  const res = await fetch(`https://api.vercel.com/v9/projects?${params}`, {
-    headers: { Authorization: `Bearer ${VERCEL_TOKEN}` },
-  });
+let _vercelTeamId = VERCEL_TEAM_ID || null;
+let _vercelProjectsByRepo = null; // Map<"org/repo", project>
+
+async function vercelFetch(pathAndQuery) {
+  const url = `https://api.vercel.com${pathAndQuery}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${VERCEL_TOKEN}` } });
   if (!res.ok) {
-    log(`  vercel lookup failed for ${repo.name}: ${res.status}`);
-    return null;
+    const body = await res.text().catch(() => '');
+    throw new Error(`Vercel GET ${pathAndQuery} → ${res.status}: ${body.slice(0, 300)}`);
   }
-  const data = await res.json();
-  const project = (data.projects || [])[0];
+  return res.json();
+}
+
+async function resolveVercelTeamId() {
+  if (_vercelTeamId) return _vercelTeamId;
+  if (!VERCEL_TEAM_SLUG) return null;
+  const team = await vercelFetch(`/v2/teams?slug=${encodeURIComponent(VERCEL_TEAM_SLUG)}`);
+  _vercelTeamId = team?.id || team?.teams?.[0]?.id || null;
+  if (!_vercelTeamId) throw new Error(`Could not resolve team slug "${VERCEL_TEAM_SLUG}" to an ID`);
+  log(`  resolved team slug "${VERCEL_TEAM_SLUG}" → ${_vercelTeamId}`);
+  return _vercelTeamId;
+}
+
+async function loadVercelProjectsByRepo() {
+  if (_vercelProjectsByRepo) return _vercelProjectsByRepo;
+  const teamId = await resolveVercelTeamId();
+  const map = new Map();
+  let from = null, pages = 0;
+  while (pages++ < 20) {
+    const qs = new URLSearchParams({ limit: '100' });
+    if (teamId) qs.set('teamId', teamId);
+    if (from) qs.set('from', String(from));
+    const data = await vercelFetch(`/v9/projects?${qs}`);
+    for (const p of data.projects || []) {
+      const link = p.link;
+      if (link?.type === 'github' && link.org && link.repo) {
+        map.set(`${link.org.toLowerCase()}/${link.repo.toLowerCase()}`, p);
+      }
+    }
+    if (!data.pagination?.next) break;
+    from = data.pagination.next;
+  }
+  log(`  loaded ${map.size} Vercel projects linked to GitHub repos`);
+  _vercelProjectsByRepo = map;
+  return map;
+}
+
+async function findVercelProdUrl(repo) {
+  const projects = await loadVercelProjectsByRepo();
+  const project = projects.get(repo.full_name.toLowerCase());
   if (!project) return null;
 
-  const prodAlias = (project.targets && project.targets.production && project.targets.production.alias) || [];
+  const prodAlias = project.targets?.production?.alias || [];
   const domain = prodAlias.find((a) => !a.includes('-git-')) || prodAlias[0];
   if (domain) return `https://${domain}`;
 
