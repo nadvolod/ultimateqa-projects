@@ -20,6 +20,10 @@ const PUBLIC_DIR = path.join(ROOT, 'public');
 const SOCIAL_DIR = path.join(ROOT, 'social-posts');
 const USER = 'nadvolod';
 
+// Repos to skip even if they have a public Vercel URL. Add the scanner's own
+// repo (self-reference) and anything else that shouldn't become a portfolio card.
+const EXCLUDED_REPOS = new Set(['ultimateqa-projects']);
+
 const AI_GATEWAY_URL = 'https://ai-gateway.vercel.sh/v1';
 const TEXT_MODEL = process.env.TEXT_MODEL || 'anthropic/claude-sonnet-4-6';
 const IMAGE_MODEL = process.env.IMAGE_MODEL || 'openai/gpt-image-1';
@@ -60,6 +64,10 @@ async function run() {
   log('Probing each repo for a public Vercel production URL');
   let chosen = null;
   for (const repo of repos) {
+    if (EXCLUDED_REPOS.has(repo.name)) {
+      log(`  - ${repo.name} (excluded)`);
+      continue;
+    }
     const url = await findVercelProdUrl(repo);
     if (!url) continue;
     if (existingUrls.has(normalizeUrl(url))) {
