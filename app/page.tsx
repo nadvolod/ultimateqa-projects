@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "KratosRx - Physician-Prescribed GLP-1 Care, Delivered",
+    summary: "KratosRx connects patients with physician-prescribed GLP-1 weight management treatments delivered directly to their door. Built for individuals ready to take control of their health with clinical-grade, telehealth-powered care.",
+    tags: ["Web App", "Healthcare", "SaaS", "Lead Generation"],
+    metric: "Physician-prescribed GLP-1 therapy, Telehealth-powered consultations, Direct-to-door medication delivery, Patient-first clinical experience",
+    image: "/project-freedom.jpg",
+    demoUrl: "https://www.kratosrx.com",
+  },
 ]
 
 const allTags = [
