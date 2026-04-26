@@ -61,6 +61,17 @@ async function run() {
   const existingUrls = extractExistingUrls(pageContent);
   log(`  ${existingUrls.size} URLs already listed`);
 
+  log('Fetching open PR branches to detect already-pending projects');
+  const pendingBranches = await listOpenPrBranches();
+  log(`  ${pendingBranches.size} open PR branch(es) found`);
+  // Pre-compute the set of project slugs that already have an open PR so that
+  // the per-candidate check is O(1). Branch format: auto/new-project-{slug}-YYYYMMDD-HHMMSS
+  const pendingSlugs = new Set(
+    [...pendingBranches]
+      .filter((b) => b.startsWith('auto/new-project-'))
+      .map((b) => b.slice('auto/new-project-'.length).replace(/-\d{8}-\d{6}$/, ''))
+  );
+
   log(`Listing Vercel projects under @${USER} (source of truth — covers both public and private GitHub repos)`);
   const candidates = await listNadvolodVercelProjects();
   log(`  ${candidates.length} Vercel projects linked to ${USER} repos`);
@@ -77,6 +88,11 @@ async function run() {
     }
     if (existingUrls.has(normalizeUrl(c.url))) {
       log(`  ✗ ${c.repo} → ${c.url} (already on homepage)`);
+      continue;
+    }
+    const slug = slugify(c.repo);
+    if (pendingSlugs.has(slug)) {
+      log(`  ✗ ${c.repo} → ${c.url} (PR already open)`);
       continue;
     }
     const reachable = await isPubliclyReachable(c.url);
@@ -225,6 +241,21 @@ function insertProject(content, project) {
 }
 
 // --------- GitHub ---------
+
+async function listOpenPrBranches() {
+  const branches = new Set();
+  // 10 pages × 100 PRs/page = up to 1,000 open PRs, which is ample for this repo.
+  for (let page = 1; page <= 10; page++) {
+    const res = await ghFetch(
+      `https://api.github.com/repos/${USER}/ultimateqa-projects/pulls?state=open&per_page=100&page=${page}`
+    );
+    const prs = await res.json();
+    if (!prs.length) break;
+    for (const pr of prs) branches.add(pr.head.ref);
+    if (prs.length < 100) break;
+  }
+  return branches;
+}
 
 async function ghFetch(url, init = {}, token = GITHUB_TOKEN) {
   const res = await fetch(url, {
