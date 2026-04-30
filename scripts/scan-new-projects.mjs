@@ -13,6 +13,7 @@ import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { appendFile } from 'node:fs/promises';
 import path from 'node:path';
 import { Buffer } from 'node:buffer';
+import { normalizeUrl, extractExistingUrls, slugify, escapeRe, buildPendingSlugs } from './scanner-utils.mjs';
 
 const ROOT = process.cwd();
 const PAGE_PATH = path.join(ROOT, 'app/page.tsx');
@@ -66,11 +67,7 @@ async function run() {
   log(`  ${pendingBranches.size} open PR branch(es) found`);
   // Pre-compute the set of project slugs that already have an open PR so that
   // the per-candidate check is O(1). Branch format: auto/new-project-{slug}-YYYYMMDD-HHMMSS
-  const pendingSlugs = new Set(
-    [...pendingBranches]
-      .filter((b) => b.startsWith('auto/new-project-'))
-      .map((b) => b.slice('auto/new-project-'.length).replace(/-\d{8}-\d{6}$/, ''))
-  );
+  const pendingSlugs = buildPendingSlugs(pendingBranches);
 
   log(`Listing Vercel projects under @${USER} (source of truth — covers both public and private GitHub repos)`);
   const candidates = await listNadvolodVercelProjects();
@@ -196,24 +193,6 @@ function writeSummary(markdown) {
 }
 
 // --------- page.tsx parsing ---------
-
-function extractExistingUrls(content) {
-  const urls = new Set();
-  const re = /(?:demoUrl|githubUrl|caseStudyUrl)\s*:\s*"([^"]+)"/g;
-  let m;
-  while ((m = re.exec(content))) urls.add(normalizeUrl(m[1]));
-  return urls;
-}
-
-function normalizeUrl(u) {
-  try {
-    const p = new URL(u);
-    const host = p.hostname.replace(/^www\./i, '');
-    return `${p.protocol}//${host}${p.pathname}`.replace(/\/$/, '').toLowerCase();
-  } catch {
-    return u.toLowerCase();
-  }
-}
 
 function insertProject(content, project) {
   const endMarker = ']\n\nconst allTags';
@@ -647,8 +626,3 @@ async function updateNadvolodReadme({ project, repo, url }) {
 
 // --------- utils ---------
 
-function slugify(s) {
-  return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 60);
-}
-
-function escapeRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
