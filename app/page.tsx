@@ -46,6 +46,16 @@ const projects = [
   },
   {
     id: 4,
+    title: "KratosRx - Performance Health & Wellness",
+    summary:
+      "Modern health and wellness platform delivering performance-focused pharmaceutical and supplement solutions for individuals seeking optimized vitality and strength",
+    tags: ["Healthcare", "E-Commerce", "Client Work"],
+    metric: "Performance-focused wellness, Optimized health solutions",
+    image: "/kratosrx.jpg",
+    demoUrl: "https://www.kratosrx.com/",
+  },
+  {
+    id: 5,
     title: "Aktiv Clean - Professional Cleaning Services",
     summary:
       "Modern business website for professional home and commercial cleaning services with booking, before/after showcases, and customer reviews",
@@ -55,7 +65,7 @@ const projects = [
     demoUrl: "https://v0-aktivcleanv2.vercel.app/",
   },
   {
-    id: 5,
+    id: 6,
     title: "LimitlessOS - Operating System for Elite Performers",
     summary: "Vision tracking, deep work metrics, and accountability for founders, executives, and operators",
     tags: ["Productivity", "AI", "SaaS"],
@@ -64,7 +74,7 @@ const projects = [
     demoUrl: "https://limitlessos.vercel.app/",
   },
   {
-    id: 6,
+    id: 7,
     title: "Nice Properties - Real Estate Listings Website",
     summary:
       "Professional real estate company website showcasing property listings with proven track record since 2017",
@@ -74,7 +84,7 @@ const projects = [
     demoUrl: "https://v0-niceproperties.vercel.app/",
   },
   {
-    id: 7,
+    id: 8,
     title: "VictoryHub - Personal Goal Tracking & Reflection",
     summary:
       "Comprehensive personal development platform for goal setting, tracking, and daily reflection with journaling features",
@@ -84,7 +94,7 @@ const projects = [
     demoUrl: "https://victoryhub.vercel.app/",
   },
   {
-    id: 8,
+    id: 9,
     title: "Credit Card Fraud Detection Agent",
     summary: "AI-powered fraud detection system using OpenAI for real-time order validation and risk assessment",
     tags: ["AI", "AI Automation", "FinTech", "Enterprise"],
@@ -93,7 +103,7 @@ const projects = [
     githubUrl: "https://github.com/nadvolod/order-processing-agents",
   },
   {
-    id: 9,
+    id: 10,
     title: "Ultimate Test Metrics - AI-Powered GitHub Testing Intelligence",
     summary:
       "AI-driven test analysis platform that automatically reviews test quality, coverage, and risk for faster PR approvals",
@@ -103,7 +113,7 @@ const projects = [
     demoUrl: "https://v0-ultimatetestmetrics.vercel.app/",
   },
   {
-    id: 10,
+    id: 11,
     title: "G Counsel Law - AI-Enhanced Legal Platform",
     summary:
       "Next-generation legal services website featuring an AI-powered chatbot for instant client support, consultation scheduling, and legal FAQ assistance",
@@ -113,7 +123,7 @@ const projects = [
     demoUrl: "https://gcouncellaw-nfsyvu02d-nadvolods-projects.vercel.app/",
   },
   {
-    id: 11,
+    id: 12,
     title: "G Counsel Law - Business Attorney Services",
     summary:
       "WordPress website and lead generation system for business law practice serving Maryland, DC, and West Virginia",
@@ -123,7 +133,7 @@ const projects = [
     demoUrl: "https://gcounsellaw.com/about-us/",
   },
   {
-    id: 12,
+    id: 13,
     title: "Healthcare Automation Program Development",
     summary:
       "Enterprise-grade test automation for a major healthcare organization with comprehensive CI/CD integration",
@@ -133,7 +143,7 @@ const projects = [
     caseStudyUrl: "https://ultimateqa.com/automation-development-for-healthcare-organization/",
   },
   {
-    id: 13,
+    id: 14,
     title: "Abundance Board - Vision Manifestation Platform",
     summary:
       "Digital vision board platform helping users manifest their goals through visual affirmations and daily practice",
@@ -143,7 +153,7 @@ const projects = [
     demoUrl: "https://myvision0.vercel.app/",
   },
   {
-    id: 14,
+    id: 15,
     title: "VitaFlow - Luxury Wellness & IV Therapy Center",
     summary: "Premium wellness center in Miami Beach offering IV therapy, peptides, and holistic rejuvenation",
     tags: ["Healthcare", "E-Commerce", "Client Work"],
@@ -152,7 +162,7 @@ const projects = [
     demoUrl: "https://v2vf.vercel.app/",
   },
   {
-    id: 15,
+    id: 16,
     title: "UltimateQA - Software Development Services",
     summary: "Comprehensive software development and quality assurance platform with extensive learning resources",
     tags: ["Platform", "Education", "Testing"],
@@ -161,7 +171,7 @@ const projects = [
     demoUrl: "https://ultimateqa.vercel.app/",
   },
   {
-    id: 16,
+    id: 17,
     title: "Nikolay Advolodkin - Personal Brand Site",
     summary:
       "Professional portfolio and thought leadership platform showcasing expertise in test automation and software quality",
@@ -171,7 +181,7 @@ const projects = [
     demoUrl: "https://nikolaydev.vercel.app/",
   },
   {
-    id: 17,
+    id: 18,
     title: "UltimateQA Main Platform",
     summary:
       "Leading test automation training and consulting platform serving developers and QA professionals worldwide",
