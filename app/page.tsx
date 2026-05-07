@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "Nexus Games - Workshop Chaos Sandbox",
+    summary: "A playful web sandbox environment built for testing and workshop experimentation, giving developers a live playground to explore UI chaos scenarios.",
+    tags: ["Web App", "Testing", "DevOps", "Portfolio"],
+    metric: "Live Vercel deployment, interactive chaos sandbox, developer workshop tool, open-source playground",
+    image: "/nexus-games.jpg",
+    demoUrl: "https://nexus-games-seven-jade.vercel.app",
+  },
 ]
 
 const allTags = [
