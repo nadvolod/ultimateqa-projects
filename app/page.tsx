@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "Carmen Ramirez - Personal Brand Portfolio",
+    summary: "A sleek Next.js personal portfolio site for Carmen Ramirez, showcasing her work, story, and professional presence to potential clients and collaborators.",
+    tags: ["Personal Brand", "Portfolio", "Web App"],
+    metric: "Next.js powered site, Vercel edge deployment, Optimized font loading, Dynamic content ready",
+    image: "/carmen-ramirez.jpg",
+    demoUrl: "https://carmen-ramirez.vercel.app",
+  },
 ]
 
 const allTags = [
