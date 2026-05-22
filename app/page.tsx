@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "CRO Agent - AI-Powered Revenue Optimization",
+    summary: "An AI-powered Chief Revenue Officer that analyzes and optimizes product portfolios to maximize revenue performance. Built for founders and growth teams who need intelligent, data-driven revenue strategy at scale.",
+    tags: ["AI", "SaaS", "Productivity", "Lead Generation"],
+    metric: "AI revenue analysis, portfolio optimization, growth strategy automation, instant CRO insights",
+    image: "/cro-ai.jpg",
+    demoUrl: "https://cro-ai-omega.vercel.app",
+  },
 ]
 
 const allTags = [
