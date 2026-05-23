@@ -180,6 +180,15 @@ const projects = [
     image: "/ultimateqa-main.jpg",
     demoUrl: "https://www.ultimateqa.com",
   },
+  {
+    id: 18,
+    title: "PipelineOS - Founder Voice Sales Agent for LinkedIn",
+    summary: "PipelineOS automates LinkedIn outbound outreach by crafting messages in the founder's own voice, helping early-stage founders and sales teams generate leads without losing authenticity.",
+    tags: ["AI Automation", "Lead Generation", "SaaS", "AI"],
+    metric: "Founder-voice messaging, LinkedIn outbound automation, Personalized AI outreach, Zero cold-voice compromise",
+    image: "/pipelineos.jpg",
+    demoUrl: "https://pipelineos-nine.vercel.app",
+  },
 ]
 
 const allTags = [
