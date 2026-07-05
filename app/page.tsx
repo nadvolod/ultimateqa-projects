@@ -679,6 +679,29 @@ export default function UltimateQAPortfolio() {
                         {project.metric}
                       </div>
 
+                      {project.techStack && (
+                        <div className="mb-3 flex flex-wrap gap-2">
+                          {project.techStack.stack.map((tech) => (
+                            <Badge key={tech} variant="outline" className="text-xs">
+                              {tech}
+                            </Badge>
+                          ))}
+                          <Badge variant="outline" className="text-xs">
+                            🧠 {project.techStack.llm}
+                          </Badge>
+                          {project.techStack.billing && (
+                            <Badge variant="outline" className="text-xs">
+                              💳 {project.techStack.billing}
+                            </Badge>
+                          )}
+                          {project.techStack.aiFeatures.map((feature) => (
+                            <Badge key={feature} variant="outline" className="text-xs">
+                              ✨ {feature}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag) => (
                           <Badge key={tag} variant="secondary" className="text-xs">
