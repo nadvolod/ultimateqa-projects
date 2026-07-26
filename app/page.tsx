@@ -16,26 +16,6 @@ import { StatsSection } from "@/components/stats-section"
 const projects = [
   {
     id: 1,
-    title: "GifterX Talks - TED Talks for Entrepreneurs",
-    summary:
-      "Premium event website for Christopher Kai's world-class entrepreneurship speaker series featuring past speakers like Elon Musk, TED founder Richard Saul Wurman, and Reebok co-founder Joe Foster",
-    tags: ["Web App", "E-Commerce"],
-    metric: "Speakers from 92 countries, 1,500+ world-class speakers",
-    image: "/gifterxtalks.jpg",
-    demoUrl: "https://www.gifterxtalks.com/",
-  },
-  {
-    id: 2,
-    title: "Note My Life - Never Forget Your Life Lessons",
-    summary:
-      "Personal growth app that captures important insights, mistakes, and lessons learned, then reminds you at the right time so you never repeat the same mistakes twice",
-    tags: ["Web App", "Personal Development", "AI"],
-    metric: "Organize by life areas, Timely reminders, Build wisdom",
-    image: "/notemylife.jpg",
-    demoUrl: "https://notemylife.com",
-  },
-  {
-    id: 3,
     title: "KratosRx - Physician-Prescribed GLP-1 Care, Delivered",
     summary: "KratosRx connects patients with licensed physicians for GLP-1 weight management treatments, shipped directly to their door. Built for individuals ready to take control of their health through modern, convenient telehealth care.",
     tags: ["Healthcare", "Web App", "AI"],
@@ -49,6 +29,26 @@ const projects = [
       billing: "Stripe",
       aiFeatures: ["AI-powered patient eligibility screening", "Intelligent consultation flow routing"],
     },
+  },
+  {
+    id: 2,
+    title: "GifterX Talks - TED Talks for Entrepreneurs",
+    summary:
+      "Premium event website for Christopher Kai's world-class entrepreneurship speaker series featuring past speakers like Elon Musk, TED founder Richard Saul Wurman, and Reebok co-founder Joe Foster",
+    tags: ["Web App", "E-Commerce"],
+    metric: "Speakers from 92 countries, 1,500+ world-class speakers",
+    image: "/gifterxtalks.jpg",
+    demoUrl: "https://www.gifterxtalks.com/",
+  },
+  {
+    id: 3,
+    title: "Note My Life - Never Forget Your Life Lessons",
+    summary:
+      "Personal growth app that captures important insights, mistakes, and lessons learned, then reminds you at the right time so you never repeat the same mistakes twice",
+    tags: ["Web App", "Personal Development", "AI"],
+    metric: "Organize by life areas, Timely reminders, Build wisdom",
+    image: "/notemylife.jpg",
+    demoUrl: "https://notemylife.com",
   },
   {
     id: 4,
@@ -679,23 +679,6 @@ export default function UltimateQAPortfolio() {
                         {project.metric}
                       </div>
 
-                      {project.techStack && (
-                        <div className="mb-3 flex flex-wrap gap-1.5">
-                          {project.techStack.stack.map((tech) => (
-                            <Badge key={tech} variant="outline" className="text-xs px-2 py-0.5">
-                              {tech}
-                            </Badge>
-                          ))}
-                          <Badge variant="outline" className="text-xs px-2 py-0.5">
-                            🧠 {project.techStack.llm}
-                          </Badge>
-                          {project.techStack.billing && (
-                            <Badge variant="outline" className="text-xs px-2 py-0.5">
-                              💳 {project.techStack.billing}
-                            </Badge>
-                          )}
-                        </div>
-                      )}
 
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag) => (
